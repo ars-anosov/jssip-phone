@@ -1,2 +1,2 @@
 # jssip-phone
-WebRTC phone powered by jssip libraray
+WebRTC телефон на базе библиотеки [jssip](https://jssip.net/) лежит в [phone](phone)
