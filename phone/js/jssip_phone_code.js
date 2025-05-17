@@ -10,22 +10,53 @@ function jssip_phone_code() {
     realm: 'sbc.pecom.ru',
     register: true
   };
-  
+
   var ua;
   var rtc_session;
-  
+
   var audioRingtone = new Audio();
   audioRingtone.preload = 'auto';
   audioRingtone.src = 'mp3/ringtone01.mp3';
-  
+
   var audioRingbackOut = new Audio();
   audioRingbackOut.preload = 'auto';
   audioRingbackOut.src = 'mp3/ringback_outgoing.mp3';
   audioRingbackOut.loop = true
-  
-  
-  
-  $(document).on('click', '#connectBtn', connectWs)
+
+
+
+  // $(document).on('click', '#connectBtn', connectWs)
+  document.getElementById("connectBtn").addEventListener("click", function (e) {
+    connectWs();
+  });
+
+  // $(document).on('click', '#uacInfo', uaDisconnect)
+  document.getElementById("uacInfo").addEventListener("click", function (e) {
+    uaDisconnect();
+  });
+
+  // $(document).on('click', '#answerBtn', callIncomeAnswer)
+  document.getElementById("answerBtn").addEventListener("click", function (e) {
+    callIncomeAnswer();
+  });
+
+  // $(document).on('click', '#endCallIncomeBtn', callIncomeEnd)
+  document.getElementById("endCallIncomeBtn").addEventListener("click", function (e) {
+    callIncomeEnd();
+  });
+
+  // $(document).on('click', '#callBtn', callOutgoStart)
+  document.getElementById("callBtn").addEventListener("click", function (e) {
+    callOutgoStart();
+  });
+
+  // $(document).on('click', '#endCallOutgoBtn', callOutgoEnd)
+  document.getElementById("endCallOutgoBtn").addEventListener("click", function (e) {
+    callOutgoEnd();
+  });
+
+
+
   function connectWs() {
     document.getElementById("callerInp").hidden = true;
     document.getElementById("callerPwdInp").hidden = true;
@@ -68,75 +99,75 @@ function jssip_phone_code() {
       document.getElementById("callBtn").style.backgroundColor = "lightgray";
       document.getElementById("callBtn").innerHTML = "registrationFailed";
     });
-  
-  
-  
+
+
+
     ua.on('newRTCSession', function (e) {
       console.log('ua newRTCSession');
-  
+
       // set GLOBAL var
       rtc_session = e.session;
-  
+
       console.log("newRTCSession > originator:", e.originator)
       if (e.originator == "remote") {
         document.getElementById("callBtn").hidden = true;
         document.getElementById("answerBtn").hidden = false;
         document.getElementById("endCallIncomeBtn").hidden = false;
-  
+
         rtc_session.on('ended', (event) => {
           console.log('rtc_session ended', event);
           callIncomeEnd();
         });
-  
+
         rtc_session.on('failed', (event) => {
           console.log('rtc_session failed', event);
           callIncomeEnd();
         });
-  
+
         audioRingtone.play();
       }
     });
-  
+
     ua.start();
   }
-  
-  
-  
-  $(document).on('click', '#uacInfo', uaDisconnect)
+
+
+
   function uaDisconnect() {
     ua.stop();
-  
+
     document.getElementById("callerInp").hidden = false;
     document.getElementById("callerPwdInp").hidden = false;
     document.getElementById("connectBtn").hidden = false;
-  
+
     document.getElementById("uacInfo").hidden = true;
     document.getElementById("numInp").hidden = true;
     document.getElementById("callBtn").hidden = true;
   }
-  
-  
-  $(document).on('click', '#answerBtn', callIncomeAnswer)
+
+
+
   function callIncomeAnswer() {
     var options = {
       'mediaConstraints': { 'audio': true, 'video': false }
     };
-  
+
     audioRingtone.pause();
     var xxx = rtc_session.answer(options);
-  
+
     // .connection появится только после .answer()
     rtc_session.connection.addEventListener('addstream', (event) => {
       console.log('rtc_session addstream');
       document.getElementById("remoteAudio").srcObject = event.stream;
       document.getElementById("remoteAudio").play();
     });
-  
+
     document.getElementById("answerBtn").hidden = true;
     document.getElementById("endCallIncomeBtn").hidden = false;
   }
-  
-  $(document).on('click', '#endCallIncomeBtn', callIncomeEnd)
+
+
+
   function callIncomeEnd() {
     audioRingtone.pause();
     if (rtc_session.isInProgress() || rtc_session.isEstablished()) { rtc_session.terminate(); }
@@ -144,9 +175,9 @@ function jssip_phone_code() {
     document.getElementById("endCallIncomeBtn").hidden = true;
     document.getElementById("answerBtn").hidden = true;
   }
-  
-  
-  $(document).on('click', '#callBtn', callOutgoStart)
+
+
+
   function callOutgoStart() {
     var eventHandlers = {
       'progress': function (e) {
@@ -191,7 +222,7 @@ function jssip_phone_code() {
       //   ]
       // }
     };
-  
+
     var numInp = document.getElementById("numInp").value;
     ua.call('sip:' + numInp + '@sbc.pecom.ru', options);
     audioRingbackOut.play();
@@ -200,10 +231,10 @@ function jssip_phone_code() {
       document.getElementById("remoteAudio").srcObject = event.stream;
       document.getElementById("remoteAudio").play();
     });
-  
+
     document.getElementById("endCallOutgoBtn").hidden = false;
   }
-  
+
   document.getElementById("numInp").addEventListener("keypress", function(event) {
     // If the user presses the "Enter" key on the keyboard
     if (event.key === "Enter") {
@@ -211,14 +242,21 @@ function jssip_phone_code() {
       callOutgoStart();
     }
   });
-  
-  
-  
-  $(document).on('click', '#endCallOutgoBtn', callOutgoEnd)
+
+  document.getElementById("callerPwdInp").addEventListener("keypress", function(event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.key === "Enter") {
+      event.preventDefault();
+      connectWs();
+    }
+  });
+
+
+
   function callOutgoEnd() {
     audioRingbackOut.pause();
     ua.terminateSessions();
     document.getElementById("callBtn").hidden = false;
   }
-  
-  }
+
+}
