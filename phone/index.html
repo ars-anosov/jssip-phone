@@ -10,28 +10,31 @@
     <script type="text/javascript" src="js/jssip_phone_code.js"></script>
   </head>
   <body>
-  <div style='text-align: center; padding:20px;'>
 
-    <div style='padding:10px; border: 1px solid lightGray; border-radius: 10px; background: #eee; display: inline-block;'>
-      <input id='callerInp' style='width: 100px; border: 1px solid lightGray; border-radius:5px; padding: 4px;' type='text' placeholder='user' value='' />
-      <input id='callerPwdInp' style='width: 100px; border: 1px solid lightGray; border-radius:5px; padding: 4px;' type='password' placeholder='secret' width=10 value='' />
-      <button id='connectBtn' style='border: 1px solid lightGray; border-radius: 5px; background-color: lightblue; padding: 4px;'>Подключить браузер по WebRTC</button>
+    <div style='max-width: 520px; padding:16px; margin: auto; margin-top: 24px; border: 1px dashed grey; border-radius:20px; display: block; text-align: center; font-family: Roboto, Helvetica, Arial, sans-serif;'>
 
-      <button id='uacInfo' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px;'>user info</button>
-      <input id='numInp' type='text' value='' placeholder='989251234567' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px;'/>
-      <button id='callBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px;'>Подключение к WSS</button>
-      <button id='answerBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px; background-color: lightgreen;'>Ответить</button>
-      <button id='endCallIncomeBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px; background-color: lightcoral;'>Положить трубку</button>
-      <button id='endCallOutgoBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px; background-color: lightcoral;'>Положить трубку</button>
+      <div style='padding:10px; border: 1px solid lightGray; border-radius: 10px; background: #eee; display: block;'>
+        <input id='callerInp' style='width: 100px; border: 1px solid lightGray; border-radius:5px; padding: 4px;' type='text' placeholder='user' value='' />
+        <input id='callerPwdInp' style='width: 100px; border: 1px solid lightGray; border-radius:5px; padding: 4px;' type='password' placeholder='secret' width=10 value='' />
+        <button id='connectBtn' style='border: 1px solid lightGray; border-radius: 5px; background-color: lightblue; padding: 4px;'>Подключить браузер по WebRTC</button>
 
-      <audio id='remoteAudio'>
-        <p>Your browser doesn't support HTML5 audio.</p>
-      </audio>
+        <button id='uacInfo' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px;'>user info</button>
+        <input id='numInp' type='text' value='' placeholder='989251234567' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px;'/>
+        <button id='callBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px;'>Подключение к WSS</button>
+        <button id='answerBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px; background-color: lightgreen;'>Ответить</button>
+        <button id='endCallIncomeBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px; background-color: lightcoral;'>Положить трубку</button>
+        <button id='endCallOutgoBtn' hidden style='border: 1px solid lightGray; border-radius:5px; padding: 4px; background-color: lightcoral;'>Положить трубку</button>
+
+        <audio id='remoteAudio'>
+          <p>Your browser doesn't support HTML5 audio.</p>
+        </audio>
+      </div>
+      
+      <p style="font-size: 11px; color: gray; margin-top: 16px; margin-bottom: 0px;">powered by jssip-3.10.0<br><strong>v.1.0.0</strong> Copyright © <a style="color: gray;" href="https://github.com/ars-anosov/jssip-phone">ars</a> 2025.</p>
     </div>
 
-  </div>
-  <script>
-    jssip_phone_code()
-  </script>
+    <script>
+      jssip_phone_code()
+    </script>
   </body>
 </html>
